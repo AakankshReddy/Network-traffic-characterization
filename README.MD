@@ -339,5 +339,5 @@ ECE Undergraduate, IIT Kharagpur
 
 **Areas of Interest:** Digital Design · Machine Learning & Data · Signal Processing · Control Systems
 
-[![GitHub](https://img.shields.io/badge/GitHub-181717?style=flat-square&logo=github&logoColor=white)](#)
-[![LinkedIn](https://img.shields.io/badge/LinkedIn-0A66C2?style=flat-square&logo=linkedin&logoColor=white)](#)
+[![GitHub](https://img.shields.io/badge/GitHub-181717?style=flat-square&logo=github&logoColor=white)](https://github.com/AakankshReddy)
+[![LinkedIn](https://img.shields.io/badge/LinkedIn-0A66C2?style=flat-square&logo=linkedin&logoColor=white)](https://www.linkedin.com/in/kadukuntla-aakanksh-reddy-a985a3387/)
