@@ -1,5 +1,7 @@
 <div align="center">
 
+![Banner](https://capsule-render.vercel.app/api?type=waving&color=0:3776AB,50:F7931E,100:4C72B0&height=200&section=header&text=Network%20Traffic%20Characterization&fontSize=42&fontColor=ffffff&desc=Behavioral%20Clustering%20with%20PCA%20%26%20K-Means&descSize=18&descAlignY=62&animation=fadeIn)
+
 # 🌐 Behavioral Characterization of Large-Scale Network Traffic
 ### Using PCA & Unsupervised Clustering
 
@@ -28,6 +30,8 @@
 - [Overview](#-overview)
 - [Research Question](#-research-question)
 - [Key Results](#-key-results)
+- [Repository Structure](#-repository-structure)
+- [Setup & Installation](#-setup--installation)
 - [Dataset](#-dataset)
 - [Project Pipeline](#-project-pipeline)
 - [Exploratory Data Analysis](#-exploratory-data-analysis)
@@ -78,6 +82,41 @@ The goal: understand *how* traffic behaves, not just *what* generated it.
 - Reduced **82 raw features → 18 principal components**, retaining **90% of total variance**
 - Segmented traffic into **7 interpretable behavioral archetypes**, independent of protocol labels
 - Demonstrated that **protocol identity alone fails to explain traffic behavior** — multiple protocols consistently span several behavioral clusters
+
+---
+
+## 📁 Repository Structure
+
+```text
+Network-traffic-characterization/
+│
+├── network_characterisation_eda.ipynb                    # Exploratory data analysis
+├── network_characterisation_feature_engineering...ipynb  # Feature engineering, PCA & clustering
+├── requirements.txt                                       # Python dependencies
+├── plan.MD                                                 # Project planning & methodology notes
+├── README.md
+└── images/                                                  # Figures used in README (PCA plots, clusters, etc.)
+```
+
+---
+
+## ⚙️ Setup & Installation
+
+```bash
+# Clone the repository
+git clone https://github.com/AakankshReddy/Network-traffic-characterization.git
+cd Network-traffic-characterization
+
+# Install dependencies
+pip install -r requirements.txt
+
+# Launch Jupyter and run the notebooks in order
+jupyter notebook
+# 1. network_characterisation_eda.ipynb
+# 2. network_characterisation_feature_engineering...ipynb
+```
+
+> 💡 See [`plan.MD`](plan.MD) for the full project planning document and methodology walkthrough.
 
 ---
 
