@@ -1,70 +1,104 @@
-# Behavioral Characterization of Large-Scale Network Traffic using PCA and Clustering
+<div align="center">
 
-## Overview
+# 🌐 Behavioral Characterization of Large-Scale Network Traffic
+### Using PCA & Unsupervised Clustering
 
-Modern networks generate millions of flows across a wide variety of applications and services. Traditional traffic analysis often relies on protocol labels, application signatures, or port numbers to understand network activity. However, these identifiers do not necessarily reflect how traffic behaves in practice.
+*Discovering how network traffic actually behaves — beyond protocol labels.*
 
-This project investigates whether network traffic can be characterized through its behavioral patterns rather than application labels alone.
+![Python](https://img.shields.io/badge/Python-3776AB?style=for-the-badge&logo=python&logoColor=white)
+![Pandas](https://img.shields.io/badge/Pandas-150458?style=for-the-badge&logo=pandas&logoColor=white)
+![NumPy](https://img.shields.io/badge/NumPy-013243?style=for-the-badge&logo=numpy&logoColor=white)
+![scikit-learn](https://img.shields.io/badge/scikit--learn-F7931E?style=for-the-badge&logo=scikit-learn&logoColor=white)
+![Matplotlib](https://img.shields.io/badge/Matplotlib-11557C?style=for-the-badge&logo=plotly&logoColor=white)
+![Seaborn](https://img.shields.io/badge/Seaborn-4C72B0?style=for-the-badge)
+![Jupyter](https://img.shields.io/badge/Jupyter-F37626?style=for-the-badge&logo=jupyter&logoColor=white)
 
-Using flow-level network statistics, the project applies exploratory data analysis, feature engineering, dimensionality reduction, and unsupervised learning to discover latent behavioral structures within network traffic.
+![Flows Analyzed](https://img.shields.io/badge/Flows_Analyzed-3.57M-blue?style=flat-square)
+![Features](https://img.shields.io/badge/Features-82-blue?style=flat-square)
+![Protocols](https://img.shields.io/badge/Protocol_Categories-78-blue?style=flat-square)
+![Variance Retained](https://img.shields.io/badge/Variance_Retained-90%25-success?style=flat-square)
+![Clusters](https://img.shields.io/badge/Behavioral_Clusters-7-success?style=flat-square)
 
----
-
-## Research Question
-
-**Can large-scale network traffic be more meaningfully characterized through behavioral patterns than through protocol labels alone?**
-
-Rather than attempting to recover application identities, this project focuses on identifying behavioral traffic archetypes such as:
-
-- Bulk data transfers
-- Interactive communication
-- Control-plane traffic
-- Persistent sessions
-- Idle connections
-
-The objective is to understand how traffic behaves, not simply what application generated it.
+</div>
 
 ---
 
-## Dataset
+## 📑 Table of Contents
 
-### Dataset Characteristics
-
-- Approximately **3.57 Million Network Flows**
-- 82 Flow-Level Features
-- 78 Application Protocol Categories
-
-Example features include:
-
-- Flow Duration
-- Packet Counts
-- Byte Counts
-- Packet Length Statistics
-- Inter-Arrival Times (IAT)
-- TCP Flag Counts
-- Active / Idle Time Metrics
-- TCP Window Sizes
-
----
-
-## Sampling Strategy
-
-The complete dataset contains approximately **3.57 million network flows**.
-
-Due to the computational cost of dimensionality reduction and clustering on the full dataset, a random sample of **100,000 flows** was selected for PCA and K-Means clustering.
-
-The full dataset was used during exploratory analysis to understand:
-
-- Protocol distribution
-- Feature distributions
-- Temporal characteristics
-- Correlation structure
-
-This sampling strategy provided a tractable dataset while preserving the dominant traffic behaviors present in the network.
+- [Overview](#-overview)
+- [Research Question](#-research-question)
+- [Key Results](#-key-results)
+- [Dataset](#-dataset)
+- [Project Pipeline](#-project-pipeline)
+- [Exploratory Data Analysis](#-exploratory-data-analysis)
+- [Feature Engineering](#-feature-engineering)
+- [Principal Component Analysis](#-principal-component-analysis-pca)
+- [Clustering & Behavioral Archetypes](#-behavioral-traffic-archetypes)
+- [Cluster Validation](#-cluster-validation)
+- [Key Findings](#-key-findings)
+- [Applications](#-applications)
+- [Limitations](#-limitations)
+- [Future Work](#-future-work)
+- [Tech Stack](#-tech-stack)
+- [Author](#-author)
 
 ---
 
-## Project Pipeline
+## 🔎 Overview
+
+Modern networks generate millions of flows across a wide variety of applications and services. Traditional traffic analysis often relies on protocol labels, application signatures, or port numbers — but these identifiers don't necessarily reflect *how* traffic actually behaves.
+
+This project asks a different question: **can network traffic be characterized by its behavior instead of its label?**
+
+Using flow-level network statistics, the pipeline applies exploratory data analysis, feature engineering, dimensionality reduction (PCA), and unsupervised learning (K-Means) to uncover latent behavioral structures across **3.57 million network flows**.
+
+---
+
+## ❓ Research Question
+
+> **Can large-scale network traffic be more meaningfully characterized through behavioral patterns than through protocol labels alone?**
+
+Rather than recovering application identities, the project identifies behavioral traffic archetypes such as:
+
+| Archetype | Description |
+|---|---|
+| 🔵 Bulk Data Transfers | High throughput, large payloads |
+| 🟢 Interactive Communication | Bidirectional, user-driven |
+| 🟡 Control-Plane Traffic | ACK-dominated, connection management |
+| 🟣 Persistent Sessions | Long-lived, stable |
+| ⚪ Idle Connections | Low throughput, long duration |
+
+The goal: understand *how* traffic behaves, not just *what* generated it.
+
+---
+
+## 🏆 Key Results
+
+- Identified **5 dominant behavioral dimensions** underlying network activity: volume, session persistence, protocol semantics, directionality, and burstiness
+- Reduced **82 raw features → 18 principal components**, retaining **90% of total variance**
+- Segmented traffic into **7 interpretable behavioral archetypes**, independent of protocol labels
+- Demonstrated that **protocol identity alone fails to explain traffic behavior** — multiple protocols consistently span several behavioral clusters
+
+---
+
+## 📊 Dataset
+
+| Metric | Value |
+|---|---|
+| Total Flows | ~3.57 Million |
+| Features | 82 flow-level features |
+| Protocol Categories | 78 |
+| Sample used for PCA/Clustering | 100,000 flows |
+
+**Example features:** Flow Duration · Packet Counts · Byte Counts · Packet Length Statistics · Inter-Arrival Times (IAT) · TCP Flag Counts · Active/Idle Time Metrics · TCP Window Sizes
+
+### Sampling Strategy
+
+Due to the computational cost of PCA and K-Means at full scale, a random sample of **100,000 flows** was used for dimensionality reduction and clustering, while the **full 3.57M-flow dataset** informed exploratory analysis (protocol distribution, feature distributions, temporal characteristics, correlation structure). This preserved the dominant traffic behaviors while keeping the modeling stage tractable.
+
+---
+
+## 🔄 Project Pipeline
 
 ```text
 Raw Network Flows
@@ -93,484 +127,217 @@ Behavioral Traffic Profiling
 
 ---
 
-## Exploratory Data Analysis
+## 🔬 Exploratory Data Analysis
 
-The EDA stage focused on understanding the statistical structure of the traffic.
+- **Protocol Distribution:** Highly imbalanced — a small number of applications account for most observed traffic
+- **Flow Duration:** Strong heavy-tailed behavior — many short-lived flows alongside persistent long-duration sessions
+- **Throughput:** `Flow.Bytes.s` and `Flow.Packets.s` show substantial skewness and outliers
+- **Correlation:** Many features are strongly correlated due to shared underlying traffic characteristics (packet/byte/session statistics)
 
-### Protocol Distribution
-
-The dataset exhibits a highly imbalanced protocol distribution, with a small number of applications accounting for a large fraction of observed traffic.
-
-### Flow Duration Analysis
-
-Flow duration exhibits strong heavy-tailed behavior:
-
-- Large numbers of short-lived flows
-- Persistent long-duration sessions
-- Significant variance across applications
-
-### Throughput Analysis
-
-Metrics such as:
-
-- Flow.Bytes.s
-- Flow.Packets.s
-
-display substantial skewness and outlier behavior.
-
-### Correlation Analysis
-
-Many network features exhibit strong correlation due to shared underlying traffic characteristics such as packet counts, byte counts, and session statistics.
-
-These observations motivated subsequent preprocessing and dimensionality reduction.
+These observations directly motivated the preprocessing and dimensionality-reduction steps below.
 
 ---
 
-## Feature Engineering
+## 🛠 Feature Engineering
 
-### Removing Non-Behavioral Identifiers
+<details>
+<summary><b>Removing Non-Behavioral Identifiers</b></summary>
+<br>
 
-The following fields were removed before modeling:
+Removed before modeling: `Flow.ID`, `Source.IP`, `Destination.IP`, `Timestamp`, `Label` — these uniquely identify flows but don't describe behavior.
+</details>
 
-- Flow.ID
-- Source.IP
-- Destination.IP
-- Timestamp
-- Label
+<details>
+<summary><b>Infinite Value Audit</b></summary>
+<br>
 
-These variables uniquely identify flows but do not describe traffic behavior.
+Certain metrics can theoretically produce infinite values as flow duration approaches zero. An explicit audit confirmed **no infinite values** in the sampled dataset.
+</details>
 
----
+<details>
+<summary><b>Skewness Correction</b></summary>
+<br>
 
-### Infinite Value Audit
-
-Certain network traffic metrics may theoretically contain infinite values when flow duration approaches zero.
-
-An explicit audit was performed before preprocessing.
-
-No infinite values were detected in the sampled dataset used for analysis.
-
----
-
-### Skewness Analysis
-
-Many network traffic features exhibit strong positive skewness.
-
-Examples include:
-
-- Flow Duration
-- Throughput Metrics
-- Packet Counts
-- Inter-Arrival Times
-
-Highly skewed features were identified using skewness statistics and transformed using:
+Highly skewed features (Flow Duration, Throughput, Packet Counts, IATs) were transformed via:
 
 ```python
 np.log1p(x)
 ```
 
-This transformation:
+This compresses extreme outliers, preserves ordering, reduces variance imbalance, and improves clustering stability.
+</details>
 
-- Compresses extreme outliers
-- Preserves ordering
-- Reduces variance imbalance
-- Improves clustering stability
+<details>
+<summary><b>Binary Feature Audit</b></summary>
+<br>
 
----
+TCP flag features represent binary/count-based events, not continuous measurements — excluded from log-transformation to preserve meaning.
+</details>
 
-### Binary Feature Audit
+<details>
+<summary><b>Special Handling: Window Size Features</b></summary>
+<br>
 
-TCP flag features represent binary or count-based network events rather than continuous measurements.
+`Init_Win_bytes_backward` contains sentinel values for unavailable measurements and was excluded from the log-transform stage to avoid distortion.
+</details>
 
-These variables were excluded from logarithmic transformation to preserve their original meaning.
+<details>
+<summary><b>Standardization</b></summary>
+<br>
 
----
-
-### Special Handling of Window Size Features
-
-The feature:
-
-```text
-Init_Win_bytes_backward
-```
-
-contains sentinel values representing unavailable measurements.
-
-To avoid distortion during logarithmic transformation, this feature was excluded from the log-transform stage.
+All numerical features were standardized via `StandardScaler()` to mean = 0, std = 1, ensuring equal contribution during PCA and clustering.
+</details>
 
 ---
 
-### Standardization
-
-Features were standardized using:
-
-```python
-StandardScaler()
-```
-
-to ensure equal contribution during PCA and clustering.
-
-All numerical features were transformed to:
-
-```text
-Mean = 0
-Standard Deviation = 1
-```
-
----
-
-## Principal Component Analysis (PCA)
-
-PCA was applied to reduce dimensionality and uncover latent behavioral factors within the traffic.
+## 📉 Principal Component Analysis (PCA)
 
 ### Variance Retention
 
 | Variance Retained | Components |
-|------------------|------------|
-| 90% | 18 |
+|:---:|:---:|
+| 90% | **18** |
 | 95% | 25 |
 | 99% | 39 |
 
-The project retained:
+The project retained **18 principal components**, preserving ~**90% of total variance** while significantly reducing feature-space complexity.
 
-```text
-18 Principal Components
-```
+![PCA Variance Plot](image.png)
 
-which preserve approximately:
+> Although 18 components were retained, only the **first five** were interpreted in detail — they captured the most dominant, interpretable dimensions. Later components refined these patterns (TCP flag combinations, protocol-specific effects, window-size behavior) rather than introducing new ones.
 
-```text
-90% of total variance
-```
+### Component Interpretation
 
-while significantly reducing feature-space complexity.
-
----
-![alt text](image.png)
-
-## Interpretation Scope
-
-Although 18 principal components were retained, only the first five were interpreted in detail.
-
-The first five components captured the most dominant and interpretable dimensions of network traffic behavior.
-
-Subsequent components explained progressively smaller amounts of variance and were primarily associated with more specialized effects such as:
-
-- TCP flag combinations
-- Protocol-specific characteristics
-- Window-size behavior
-- Fine-grained timing variations
-
-These later components provide refinement of the dominant behavioral patterns rather than entirely new traffic dimensions.
+| Component | Name | Dominant Features | Interpretation |
+|---|---|---|---|
+| **PC1** | Traffic Volume & Session Intensity | Total packet length, packet counts, subflow byte stats | Overall data exchanged during a flow |
+| **PC2** | Session Persistence & Temporal Dynamics | Flow duration, idle times, IAT variability | Long-lived sessions & temporal behavior |
+| **PC3** | Protocol & Connection Semantics | Ports, TCP flags, packet length characteristics | Protocol-specific communication patterns |
+| **PC4** | Flow Directionality | Forward/backward packet statistics | Balance of forward vs. backward communication |
+| **PC5** | Burstiness & Packet Timing | Min IATs, small packet behavior, segment stats | Short-term burst communication patterns |
 
 ---
 
-## Principal Component Interpretation
+## 🧩 Behavioral Traffic Archetypes
 
-### PC1 — Traffic Volume and Session Intensity
+K-Means was applied to the PCA-transformed feature space — the goal was to identify **behaviorally similar groups**, not to recover protocol labels. Each cluster was interpreted using **median feature values, protocol distribution, and average PC scores**.
 
-Dominant Features:
+| Cluster | Archetype | Key Characteristics |
+|:---:|---|---|
+| 0 | **Persistent High-Volume Sessions** | High volume · long-lived · strong protocol identity |
+| 1 | **Bulk Transfer Traffic** | High throughput · large packets · relatively short sessions |
+| 2 | **Micro-Transaction Traffic** | Very short duration · minimal payload · small packet counts |
+| 3 | **Interactive Application Traffic** | Moderate volume · bidirectional · typical user activity |
+| 4 | **Control / Acknowledgement Traffic** | Minimal payload · ACK-dominated · very small packets |
+| 5 | **Persistent Data Sessions** | Long duration · continuous payload · high volume |
+| 6 | **Idle Persistent Connections** | Extremely long duration · low throughput · stable timing |
 
-- Total Length of Packets
-- Packet Counts
-- Subflow Byte Statistics
-
-Interpretation:
-
-PC1 is primarily associated with the overall amount of data exchanged during a flow.
-
----
-
-### PC2 — Session Persistence and Temporal Dynamics
-
-Dominant Features:
-
-- Flow Duration
-- Idle Times
-- Inter-Arrival Time Variability
-
-Interpretation:
-
-PC2 captures long-lived sessions and temporal communication behavior.
-
----
-
-### PC3 — Protocol and Connection Semantics
-
-Dominant Features:
-
-- Source/Destination Ports
-- TCP Flags
-- Packet Length Characteristics
-
-Interpretation:
-
-PC3 reflects protocol-specific communication characteristics.
+<table>
+<tr>
+<td><img src="image-8.png" width="100%"></td>
+<td><img src="image-7.png" width="100%"></td>
+</tr>
+<tr>
+<td><img src="image-6.png" width="100%"></td>
+<td><img src="image-5.png" width="100%"></td>
+</tr>
+<tr>
+<td><img src="image-4.png" width="100%"></td>
+<td><img src="image-3.png" width="100%"></td>
+</tr>
+<tr>
+<td colspan="2"><img src="image-2.png" width="100%"></td>
+</tr>
+</table>
 
 ---
 
-### PC4 — Flow Directionality
-
-Dominant Features:
-
-- Forward Packet Statistics
-- Backward Packet Statistics
-
-Interpretation:
-
-PC4 differentiates flows based on the balance of forward and backward communication.
-
----
-
-### PC5 — Burstiness and Packet Timing
-
-Dominant Features:
-
-- Minimum Inter-Arrival Times
-- Small Packet Behavior
-- Segment Characteristics
-
-Interpretation:
-
-PC5 captures short-term burst communication patterns.
-
----
-
-## Clustering
-
-K-Means clustering was applied to the PCA-transformed feature space.
-
-The objective was not to recover protocol labels but to identify groups of flows exhibiting similar behavioral characteristics.
-
----
-
-## Cluster Interpretation Methodology
-
-Clusters were interpreted using three complementary sources of evidence:
-
-1. Median feature values
-2. Protocol distributions within each cluster
-3. Average principal component scores
-
-Cluster names represent behavioral interpretations rather than ground-truth categories.
-
----
-
-## Behavioral Traffic Archetypes
-
-### Cluster 0 — Persistent High-Volume Sessions
-
-Characteristics:
-
-- High traffic volume
-- Long-lived communication
-- Strong protocol identity
-
-Represents sustained high-volume data exchange.
-
-![alt text](image-8.png)
----
-
-### Cluster 1 — Bulk Transfer Traffic
-
-Characteristics:
-
-- High throughput
-- Large packet sizes
-- Relatively short sessions
-
-Represents concentrated data-transfer activity.
-
-![alt text](image-7.png)
----
-
-### Cluster 2 — Micro-Transaction Traffic
-
-Characteristics:
-
-- Very short duration
-- Minimal payload volume
-- Small packet counts
-
-Represents lightweight communication events.
-
-![alt text](image-6.png)
----
-
-### Cluster 3 — Interactive Application Traffic
-
-Characteristics:
-
-- Moderate traffic volume
-- Bidirectional communication
-- Typical user-driven activity
-
-Represents ordinary application interaction patterns.
-
-![alt text](image-5.png)
----
-
-### Cluster 4 — Control / Acknowledgement Traffic
-
-Characteristics:
-
-- Minimal payload transfer
-- ACK-dominated behavior
-- Very small packets
-
-Represents connection-management traffic rather than data exchange.
-
-![alt text](image-4.png)
----
-
-### Cluster 5 — Persistent Data Sessions
-
-Characteristics:
-
-- Long duration
-- Continuous payload exchange
-- High traffic volume
-
-Represents stable long-lived communication sessions.
-
-![alt text](image-3.png)
----
-
-### Cluster 6 — Idle Persistent Connections
-
-Characteristics:
-
-- Extremely long duration
-- Low throughput
-- Stable timing patterns
-
-Represents active but lightly utilized connections.
-
-![alt text](image-2.png)
----
-
-## Cluster Validation
+## ✅ Cluster Validation
 
 ### Elbow Method
 
-The Elbow Method was initially used to evaluate clustering compactness across multiple values of K.
-
-![alt text](image-1.png)
-
----
+![Elbow Method](image-1.png)
 
 ### Silhouette Analysis
 
-Silhouette scores were computed for values of K ranging from 2 to 10.
-
 | K | Silhouette Score |
-|---|---:|
+|:---:|:---:|
 | 2 | 0.292 |
-| 3 | 0.336 |
+| **3** | **0.336** ⭐ |
 | 4 | 0.329 |
 | 5 | 0.290 |
 | 6 | 0.288 |
-| 7 | 0.290 |
+| **7** | **0.290** ✅ *(selected)* |
 | 8 | 0.286 |
 | 9 | 0.233 |
 | 10 | 0.233 |
 
-The highest silhouette score was observed at **K = 3**.
-
-However, K = 3 produced broad traffic categories that obscured several behaviorally distinct communication patterns.
-
-K = 7 was selected because it provided richer behavioral segmentation while maintaining a comparable silhouette score.
-
-This reflects the trade-off between maximizing cluster separation and obtaining interpretable traffic archetypes.
+**K = 3** gave the highest silhouette score but produced overly broad categories that obscured distinct behavioral patterns. **K = 7** was chosen instead — it trades a marginal drop in separation score for **materially richer, more interpretable** behavioral segmentation.
 
 ---
 
-## Key Findings
+## 💡 Key Findings
 
-1. Network traffic naturally organizes into behavioral groups.
-
-2. Protocol labels alone do not fully explain traffic behavior.
-
-3. Five dominant behavioral dimensions were identified:
-
-   - Traffic Volume
-   - Session Persistence
-   - Protocol Semantics
-   - Directionality
-   - Burstiness
-
-4. Multiple protocols frequently appear across several behavioral clusters.
-
-5. Behavioral characterization provides a richer representation of network activity than application labels alone.
+1. Network traffic naturally organizes into distinct behavioral groups
+2. Protocol labels alone do **not** fully explain traffic behavior
+3. Five dominant behavioral dimensions emerged: **Volume, Persistence, Protocol Semantics, Directionality, Burstiness**
+4. Multiple protocols frequently appear across several behavioral clusters
+5. Behavioral characterization offers a **richer representation** of network activity than application labels alone
 
 ---
 
-## Applications
+## 🚀 Applications
 
-### Network Monitoring
-
-Summarize millions of network flows into a small number of behavioral categories.
-
-### Traffic Engineering
-
-Identify:
-
-- Bulk transfers
-- Interactive traffic
-- Persistent sessions
-
-for improved resource allocation.
-
-### Security Analytics
-
-Use behavioral clusters as a baseline for anomaly detection and traffic profiling.
-
-### Encrypted Traffic Characterization
-
-Analyze communication behavior without requiring packet payload inspection.
+| Domain | Use Case |
+|---|---|
+| **Network Monitoring** | Summarize millions of flows into a handful of behavioral categories |
+| **Traffic Engineering** | Identify bulk transfers, interactive traffic, and persistent sessions for better resource allocation |
+| **Security Analytics** | Use behavioral clusters as a baseline for anomaly detection and traffic profiling |
+| **Encrypted Traffic Analysis** | Characterize communication behavior without inspecting packet payloads |
 
 ---
 
-## Limitations
+## ⚠️ Limitations
 
-- PCA and clustering were performed on a 100,000-flow sample rather than the complete dataset.
-- Cluster labels are behavioral interpretations and not ground-truth categories.
-- K-Means assumes approximately spherical clusters and may not capture all traffic structures.
-- Behavioral patterns may evolve over time as network usage changes.
-
----
-
-## Future Work
-
-Potential extensions include:
-
-- Isolation Forest Based Anomaly Detection
-- Cluster Stability Analysis
-- Real-Time Traffic Classification
-- Automated Traffic Policy Recommendation Systems
-- Behavioral Drift Detection
+- PCA and clustering were performed on a 100,000-flow sample, not the full dataset
+- Cluster labels are behavioral interpretations, not ground-truth categories
+- K-Means assumes roughly spherical clusters and may miss more complex structures
+- Behavioral patterns may drift over time as network usage evolves
 
 ---
 
-## Technologies Used
+## 🔮 Future Work
 
-- Python
-- Pandas
-- NumPy
-- Matplotlib
-- Seaborn
-- Scikit-Learn
-- Jupyter Notebook
+- [ ] Isolation Forest–based anomaly detection
+- [ ] Cluster stability analysis
+- [ ] Real-time traffic classification
+- [ ] Automated traffic policy recommendation
+- [ ] Behavioral drift detection over time
 
 ---
 
-## Author
-K. Aakanksh Reddy
+## 🧰 Tech Stack
+
+<div align="center">
+
+| Category | Tools |
+|---|---|
+| **Language** | ![Python](https://img.shields.io/badge/-Python-3776AB?style=flat-square&logo=python&logoColor=white) |
+| **Data Handling** | ![Pandas](https://img.shields.io/badge/-Pandas-150458?style=flat-square&logo=pandas&logoColor=white) ![NumPy](https://img.shields.io/badge/-NumPy-013243?style=flat-square&logo=numpy&logoColor=white) |
+| **Modeling** | ![scikit-learn](https://img.shields.io/badge/-scikit--learn-F7931E?style=flat-square&logo=scikit-learn&logoColor=white) |
+| **Visualization** | ![Matplotlib](https://img.shields.io/badge/-Matplotlib-11557C?style=flat-square) ![Seaborn](https://img.shields.io/badge/-Seaborn-4C72B0?style=flat-square) |
+| **Environment** | ![Jupyter](https://img.shields.io/badge/-Jupyter-F37626?style=flat-square&logo=jupyter&logoColor=white) |
+
+</div>
+
+---
+
+## 👤 Author
+
+**K. Aakanksh Reddy**
 ECE Undergraduate, IIT Kharagpur
 
-Areas of Interest:
+**Areas of Interest:** Digital Design · Machine Learning & Data · Signal Processing · Control Systems
 
-- Signal Processing
-- Machine Learning
-- Network Analytics
-- Data Science
+[![GitHub](https://img.shields.io/badge/GitHub-181717?style=flat-square&logo=github&logoColor=white)](#)
+[![LinkedIn](https://img.shields.io/badge/LinkedIn-0A66C2?style=flat-square&logo=linkedin&logoColor=white)](#)
